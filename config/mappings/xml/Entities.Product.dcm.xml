@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                    http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+      <entity name="Entities\Product" table="products">
+          <id name="id" type="integer" column="id">
+              <generator strategy="AUTO" />
+          </id>
+
+          <field name="name" column="product_name" type="string" />
+          
+          <many-to-many field="bugs" target-entity="Entities\Bug" inversed-by="products">
+             <join-table name="products_bugs">
+                <join-columns>
+                    <join-column name="product_id" referenced-column-name="id" nullable="false" unique="false" />
+                </join-columns>
+                <inverse-join-columns>
+                    <join-column name="bug_id" referenced-column-name="id" nullable="false" column-definition="INT NULL" />
+                </inverse-join-columns>
+            </join-table>         
+          </many-to-many>
+      </entity>
+</doctrine-mapping>
+
