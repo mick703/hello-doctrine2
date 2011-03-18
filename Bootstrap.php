@@ -1,4 +1,5 @@
 <?php
+
 require_once __DIR__. '/library/Doctrine/Common/ClassLoader.php';
 
 class Bootstrap
@@ -32,6 +33,9 @@ class Bootstrap
 		
 		//Init Entity Manager
 		$this->initEnityManager();
+		
+		//Console helper set
+		//$this->initHelperSet();
 	}
 	
 	/**
@@ -130,7 +134,7 @@ class Bootstrap
 		$helperSet = new \Symfony\Component\Console\Helper\HelperSet(array(
 			'db' => new \Doctrine\DBAL\Tools\Console\Helper\ConnectionHelper(
 				$entityManager->getConnection()),
-			'em' => new \Doctrine\ORM\Tools\Console\Helper\EntityManagerHelper($entityManager, __DIR__. '/Entities')
+			'em' => new \Doctrine\ORM\Tools\Console\Helper\EntityManagerHelper($entityManager)
 		));
 	}
 	
@@ -141,7 +145,7 @@ class Bootstrap
 	 */
 	public function getEntityManager() 
 	{
-		if (!($entityManager instanceof \Doctrine\ORM\EntityManager)) {
+		if (!($this->entityManager instanceof \Doctrine\ORM\EntityManager)) {
 			throw new \RuntimeException('Entity Manager was not found.');
 		}
 		return $this->entityManager;	
